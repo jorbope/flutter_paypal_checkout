@@ -15,10 +15,14 @@ class PaypalServices {
     required this.sandboxMode,
   });
 
-  getAccessToken() async {
-    String domain = sandboxMode
+  String getDomainUrl() {
+    return sandboxMode
         ? "https://api-m.sandbox.paypal.com"
         : "https://api.paypal.com";
+  }
+
+  getAccessToken() async {
+    String domain = getDomainUrl();
 
     try {
       var authToken = base64.encode(
@@ -58,9 +62,7 @@ class PaypalServices {
     transactions,
     accessToken,
   ) async {
-    String domain = sandboxMode
-        ? "https://api.sandbox.paypal.com"
-        : "https://api.paypal.com";
+    String domain = getDomainUrl();
 
     try {
       final response = await http.post(
